@@ -1,1 +1,1 @@
-# book_generative_model
+# 《生成式视觉模型原理与实践》
