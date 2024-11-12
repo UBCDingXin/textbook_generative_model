@@ -630,7 +630,7 @@ plt.savefig(output_path + "/fake_imgs_epoch_{}.png".format(EPOCHS), dpi=500,bbox
 # 评价指标计算
 PreNetFIDIS = Inception3(num_classes=NUM_CLASS, aux_logits=True, transform_input=False, input_channel=NC).to(device)
 # PreNetFIDIS = nn.DataParallel(PreNetFIDIS)
-filename_ckpt = './output/fashion_mnist/ckpt_InceptionV3_epoch200.pth'
+filename_ckpt = './output/ckpt_InceptionV3_epoch200.pth'
 checkpoint_PreNet = torch.load(filename_ckpt, weights_only=True)
 PreNetFIDIS.load_state_dict(checkpoint_PreNet['net_state_dict'])
 
