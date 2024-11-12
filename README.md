@@ -33,7 +33,7 @@
 
 
 ## 致谢
-本书实验部分的代码参考了以下资料：</br>
+本书实验部分的代码参考或利用了以下资料：</br>
 1. https://github.com/aitorzip/PyTorch-CycleGAN
 2. https://github.com/leftthomas/SRGAN
 3. https://github.com/christiancosgrove/pytorch-spectral-normalization-gan 
