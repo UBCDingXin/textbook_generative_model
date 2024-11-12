@@ -49,7 +49,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
 
 # 输出路径
-output_path = "./output/fashion_mnist"
+output_path = "./output"
 os.makedirs(output_path, exist_ok=True)
 path_to_saved_models = os.path.join(output_path, "saved_models")
 os.makedirs(path_to_saved_models, exist_ok=True)

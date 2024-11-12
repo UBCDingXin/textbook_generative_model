@@ -43,7 +43,7 @@ GEN_SIZE=64
 DISC_SIZE=64
 
 EPOCHS=200
-RESUME_EPOCH=200
+RESUME_EPOCH=0
 BATCH_SIZE=256
 LR_D=1e-4
 LR_G=1e-4
@@ -60,7 +60,7 @@ print(device)
 
 
 # 输出路径
-output_path = "./output/sngan_fashion_mnist"
+output_path = "./output/sngan"
 os.makedirs(output_path, exist_ok=True)
 
 

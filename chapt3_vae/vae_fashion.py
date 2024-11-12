@@ -36,7 +36,7 @@ NUM_CLASS=10
 NC=1
 
 EPOCHS=200
-RESUME_EPOCH=200
+RESUME_EPOCH=0
 BATCH_SIZE=256
 LATENT_DIM=64
 LR=1e-4
@@ -64,7 +64,7 @@ test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=100, shuffle=
 
 
 # 输出路径
-output_path = "./output/fashion_mnist"
+output_path = "./output"
 os.makedirs(output_path, exist_ok=True)
 
 ###################################################
@@ -73,7 +73,6 @@ dataiter = iter(train_loader)
 image = next(dataiter)
 
 num_samples = 25
-# sample_images = [image[0][i,0] for i in range(num_samples)] 
 sample_images = [((image[0][i,0]*0.5+0.5)*255.0).int() for i in range(num_samples)] 
 
 fig = plt.figure(figsize=(5, 5))
@@ -271,20 +270,6 @@ def train(model, optimizer, epochs, resume_epoch, device):
 loss_over_epochs = train(model, optimizer, epochs=EPOCHS, resume_epoch=RESUME_EPOCH, device=device)
 
 
-# ########################
-# ## 可视化loss
-# np.save(output_path + '/training_loss_vs_epoch{}.npy'.format(EPOCHS), loss_over_epochs)
-# # array = numpy.load('training_loss_vs_epoch{}.npy'.format(EPOCHS))
-# # 绘制折线图  
-# fig = plt.figure()
-# plt.plot(np.arange(EPOCHS), loss_over_epochs)   
-# plt.grid(True, linestyle='--')  
-# plt.xlabel('epoch')  
-# plt.ylabel('loss')  
-# plt.savefig(output_path + "/training_loss_vs_epoch{}.pdf".format(EPOCHS), dpi=500, bbox_inches="tight")
-
-
-
 #########################################
 # 采样以及可视化
 model.eval()
@@ -303,104 +288,6 @@ plt.savefig(output_path + "/fake_imgs_epoch_{}.png".format(EPOCHS), dpi=500,bbox
 
 #########################################
 # 评价指标计算
-
-# # 载入预训练的CNN
-# class BasicBlock(nn.Module):
-#     expansion = 1
-#
-#     def __init__(self, in_planes, planes, stride=1):
-#         super(BasicBlock, self).__init__()
-#         self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
-#         self.bn1 = nn.BatchNorm2d(planes)
-#         self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, stride=1, padding=1, bias=False)
-#         self.bn2 = nn.BatchNorm2d(planes)
-#
-#         self.shortcut = nn.Sequential()
-#         if stride != 1 or in_planes != self.expansion*planes:
-#             self.shortcut = nn.Sequential(
-#                 nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1, stride=stride, bias=False),
-#                 nn.BatchNorm2d(self.expansion*planes)
-#             )
-#
-#     def forward(self, x):
-#         out = F.relu(self.bn1(self.conv1(x)))
-#         out = self.bn2(self.conv2(out))
-#         out += self.shortcut(x)
-#         out = F.relu(out)
-#         return out
-#
-# class Bottleneck(nn.Module):
-#     expansion = 4
-#
-#     def __init__(self, in_planes, planes, stride=1):
-#         super(Bottleneck, self).__init__()
-#         self.conv1 = nn.Conv2d(in_planes, planes, kernel_size=1, bias=False)
-#         self.bn1 = nn.BatchNorm2d(planes)
-#         self.conv2 = nn.Conv2d(planes, planes, kernel_size=3, stride=stride, padding=1, bias=False)
-#         self.bn2 = nn.BatchNorm2d(planes)
-#         self.conv3 = nn.Conv2d(planes, self.expansion*planes, kernel_size=1, bias=False)
-#         self.bn3 = nn.BatchNorm2d(self.expansion*planes)
-#
-#         self.shortcut = nn.Sequential()
-#         if stride != 1 or in_planes != self.expansion*planes:
-#             self.shortcut = nn.Sequential(
-#                 nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1, stride=stride, bias=False),
-#                 nn.BatchNorm2d(self.expansion*planes)
-#             )
-#
-#     def forward(self, x):
-#         out = F.relu(self.bn1(self.conv1(x)))
-#         out = F.relu(self.bn2(self.conv2(out)))
-#         out = self.bn3(self.conv3(out))
-#         out += self.shortcut(x)
-#         out = F.relu(out)
-#         return out
-#
-# class ResNet(nn.Module):
-#     def __init__(self, block, num_blocks, num_classes=10, nc=3):
-#         super(ResNet, self).__init__()
-#         self.in_planes = 64
-#
-#         self.main = nn.Sequential(
-#             nn.Conv2d(nc, 64, kernel_size=3, stride=1, padding=1, bias=False),  # h=h
-#             nn.BatchNorm2d(64),
-#             nn.ReLU(),
-#             self._make_layer(block, 64, num_blocks[0], stride=1),  # h=h
-#             self._make_layer(block, 128, num_blocks[1], stride=2), # h=h/2, 16
-#             self._make_layer(block, 256, num_blocks[2], stride=2), # h=h/2, 8
-#             self._make_layer(block, 512, num_blocks[3], stride=2), # h=h/2, 4
-#             nn.AvgPool2d(kernel_size=4)
-#         )
-#         self.classifier = nn.Linear(512*block.expansion, num_classes)
-#
-#     def _make_layer(self, block, planes, num_blocks, stride):
-#         strides = [stride] + [1]*(num_blocks-1)
-#         layers = []
-#         for stride in strides:
-#             layers.append(block(self.in_planes, planes, stride))
-#             self.in_planes = planes * block.expansion
-#         return nn.Sequential(*layers)
-#
-#     def forward(self, x):
-#         features = self.main(x)
-#         features = features.view(features.size(0), -1)
-#         out = self.classifier(features)
-#         return out, features
-#
-# def ResNet18(num_classes=NUM_CLASS, nc=NC):
-#     return ResNet(BasicBlock, [2,2,2,2], num_classes=num_classes, nc=nc)
-#
-# def ResNet34(num_classes=NUM_CLASS, nc=NC):
-#     return ResNet(BasicBlock, [3,4,6,3], num_classes=num_classes, nc=nc)
-#
-#
-# ## 载入模型
-# PreNetFID = ResNet34().to(device)
-# # PreNetFID = nn.DataParallel(PreNetFID)
-# filename_ckpt = output_path + '/ckpt_resnet34_epoch100.pth'
-# checkpoint_PreNet = torch.load(filename_ckpt, weights_only=True)
-# PreNetFID.load_state_dict(checkpoint_PreNet['net_state_dict'])
-
 PreNetFIDIS = Inception3(num_classes=NUM_CLASS, aux_logits=True, transform_input=False, input_channel=NC).to(device)
 # PreNetFIDIS = nn.DataParallel(PreNetFIDIS)
 filename_ckpt = output_path + '/ckpt_InceptionV3_epoch200.pth'
@@ -421,23 +308,12 @@ while ngot<NFAKE:
     ngot+=len(fake_images_tmp)
 fake_images = np.concatenate(fake_images,axis=0)
 fake_images = fake_images[0:NFAKE]
-# fake_images = model.sample(NFAKE, device)
-# fake_images = fake_images.detach().cpu().numpy() # [-1,1]
-# fake_images = ((fake_images*0.5+0.5)*255.0).astype(int)
 print("Fake image range:", len(fake_images), fake_images.min(), fake_images.max())
 print(fake_images.shape)
 print("采样速度：{}（张/秒）".format(NFAKE/(timeit.default_timer()-start_time)))
 
 ## 准备测试样本用于计算FID
-# real_images = np.transpose(test_dataset.data, (0, 3, 1, 2))
-# real_images = test_dataset.test_data[:,np.newaxis,:,:].numpy()
 real_images = train_dataset.train_data[:,np.newaxis,:,:].numpy()
-# zoom_factors = (1, 1, IMG_SIZE/28, IMG_SIZE/28)
-# real_images = zoom(real_images, zoom_factors, order=3)
-# real_images = train_dataset.train_data[:,np.newaxis,:,:].numpy()
-# real_images = real_images/255.0
-# for i in range(NC):
-#    real_images[:,i,:,:] = (real_images[:,i,:,:] - 0.5) / 0.5
 print("Real image range:", len(real_images), real_images.min(), real_images.max())
 print(real_images.shape)
 

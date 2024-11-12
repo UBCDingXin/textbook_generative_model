@@ -1,5 +1,5 @@
 #!/bin/bash
 
-export CUDA_VISIBLE_DEVICES=1
+export CUDA_VISIBLE_DEVICES=0
 
-python pretrain_inception_fashion.py
+python vae_fashion.py

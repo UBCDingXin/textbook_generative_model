@@ -41,13 +41,13 @@ setup_name="ddpm_s1"
 
 # 文件路径
 data_path = "../data"
-output_path = "./output/fashion_mnist/{}".format(setup_name)
+output_path = "./output/{}".format(setup_name)
 os.makedirs(output_path, exist_ok=True)
 path_to_saved_models = os.path.join(output_path, "saved_models")
 os.makedirs(path_to_saved_models, exist_ok=True)
 path_to_saved_images = os.path.join(output_path, "saved_images")
 os.makedirs(path_to_saved_images, exist_ok=True)
-eval_model_path = "./output/fashion_mnist"
+eval_model_path = "./output"
 
 ## 参数设置
 IMG_SIZE=28
@@ -55,7 +55,7 @@ NUM_CLASS=10
 NC=1
 
 EPOCHS=200
-RESUME_EPOCH=200
+RESUME_EPOCH=0
 BATCH_SIZE=128
 LR=5e-5
 TIMESTEPS=1000
@@ -650,10 +650,7 @@ else:
         fake_images = f['fake_images'][:]
 
 ## 准备测试样本用于计算FID
-# real_images = np.transpose(test_dataset.data, (0, 3, 1, 2))
 real_images = train_dataset.train_data[:,np.newaxis,:,:].numpy()
-# zoom_factors = (1, 1, IMG_SIZE/28, IMG_SIZE/28)
-# real_images = zoom(real_images, zoom_factors, order=3)
 
 ## 计算IS
 indx_shuffle_fake = np.arange(len(fake_images)); np.random.shuffle(indx_shuffle_fake)

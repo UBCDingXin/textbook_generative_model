@@ -1,0 +1,1 @@
+将用来计算FID和IS分数的Inception V3模型checkpoint置于此处

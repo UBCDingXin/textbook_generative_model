@@ -46,13 +46,13 @@ setup_name="sgm_s1"
 
 # 文件路径
 data_path = "../data"
-output_path = "./output/fashion_mnist/{}".format(setup_name)
+output_path = "./output/{}".format(setup_name)
 os.makedirs(output_path, exist_ok=True)
 path_to_saved_models = os.path.join(output_path, "saved_models")
 os.makedirs(path_to_saved_models, exist_ok=True)
 path_to_saved_images = os.path.join(output_path, "saved_images")
 os.makedirs(path_to_saved_images, exist_ok=True)
-eval_model_path = "./output/fashion_mnist"
+eval_model_path = "./output"
 
 ## 参数设置
 IMG_SIZE=28
@@ -60,7 +60,7 @@ NC=1
 NUM_CLASS=10
 
 EPOCHS=500
-RESUME_EPOCH=500
+RESUME_EPOCH=0
 BATCH_SIZE=128
 LR=1e-4
 SAVE_FREQ=50 #每个XX个epoch，保存一次
