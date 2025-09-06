@@ -1,4 +1,4 @@
-# 《生成式视觉模型原理与实践》的配套资料
+# [《生成式视觉模型原理与实践》](https://www.hxedu.com.cn/hxedu/hg/book/bookInfo.html?code=G0507040)的配套资料
 
 本代码仓库（[GitHub地址](https://github.com/UBCDingXin/textbook_generative_model)）包含了《生成式视觉模型原理与应用》（丁鑫、许祖衡、陈哲）的配套资料。
 
