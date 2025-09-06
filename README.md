@@ -1,7 +1,12 @@
 # [《生成式视觉模型原理与实践》](https://www.hxedu.com.cn/hxedu/hg/book/bookInfo.html?code=G0507040)的配套资料
 
 <p align="center">
-<img src="9787121507045.jpg" alt="示例图片" width="150" height="200" />
+<img src="9787121507045.jpg" alt="示例图片" width="200" height="250" />
+</p>
+
+<p align="center">
+<img src="20250906193008_26_153.png" alt="示例图片" width="300" height="400" />
+<img src="20250906193010_27_153.jpg" alt="示例图片" width="250" height="450" />
 </p>
 
 本代码仓库（[GitHub地址](https://github.com/UBCDingXin/textbook_generative_model)）包含了《生成式视觉模型原理与应用》（丁鑫、许祖衡、陈哲）的配套资料。
