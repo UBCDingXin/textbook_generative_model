@@ -171,9 +171,9 @@ class VAE(nn.Module):
         x_hat = self.decoder(x_hat)  # decoder结构,(n,512,2,2)-->(n,1,28,28)
         return x_hat  # 返回生成样本
  
-    # 再参数化
+    # 重参数化
     def reparameterize(self, mu, log_var): 
-        std = torch.exp(0.5 * log_var)  # 分布标准差std
+        std = torch.exp(log_var)  # 分布标准差std
         eps = torch.randn_like(std)  # 从标准正态分布中采样,(n,128)
         return mu + eps * std  # 返回对应正态分布中的采样值
  
